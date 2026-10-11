@@ -11,10 +11,15 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendEmail = async ({ to, subject, html }) => {
-  return transporter.sendMail({
-    from: process.env.SMTP_FROM,
-    to,
-    subject,
-    html,
-  });
+  try {
+    return await transporter.sendMail({
+      from: process.env.SMTP_FROM,
+      to,
+      subject,
+      html,
+    });
+  } catch (error) {
+    console.error('Brevo email error:', error);
+    throw error;
+  }
 };
